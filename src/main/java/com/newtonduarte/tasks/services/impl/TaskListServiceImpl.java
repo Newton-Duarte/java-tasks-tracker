@@ -3,10 +3,12 @@ package com.newtonduarte.tasks.services.impl;
 import com.newtonduarte.tasks.domain.entities.TaskList;
 import com.newtonduarte.tasks.repositories.TaskListRepository;
 import com.newtonduarte.tasks.services.TaskListService;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class TaskListServiceImpl implements TaskListService {
@@ -19,6 +21,11 @@ public class TaskListServiceImpl implements TaskListService {
     @Override
     public List<TaskList> getTaskLists() {
         return taskListRepository.findAll();
+    }
+
+    @Override
+    public TaskList getTaskList(UUID id) {
+        return taskListRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Task List not found with id " + id));
     }
 
     @Override
