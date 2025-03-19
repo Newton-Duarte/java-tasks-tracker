@@ -40,4 +40,10 @@ public class TaskListController {
         TaskList createdTaskList = taskListService.createTaskList(taskListMapper.fromDto(taskListDto));
         return new ResponseEntity<>(taskListMapper.toDto(createdTaskList), HttpStatus.CREATED);
     }
+
+    @PutMapping(path = "/{id}")
+    public ResponseEntity<TaskListDto> updateTaskList(@PathVariable UUID id, @RequestBody TaskListDto taskListDto) {
+        TaskList taskList = taskListService.updateTaskList(id, taskListMapper.fromDto(taskListDto));
+        return new ResponseEntity<>(taskListMapper.toDto(taskList), HttpStatus.OK);
+    }
 }
