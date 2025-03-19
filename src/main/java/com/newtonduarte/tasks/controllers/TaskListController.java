@@ -4,10 +4,9 @@ import com.newtonduarte.tasks.domain.dto.TaskListDto;
 import com.newtonduarte.tasks.domain.entities.TaskList;
 import com.newtonduarte.tasks.mappers.TaskListMapper;
 import com.newtonduarte.tasks.services.TaskListService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -27,5 +26,11 @@ public class TaskListController {
         List<TaskList> taskLists = taskListService.getTaskLists();
         List<TaskListDto> taskListsDto = taskLists.stream().map(taskListMapper::toDto).toList();
         return ResponseEntity.ok(taskListsDto);
+    }
+
+    @PostMapping
+    public ResponseEntity<TaskListDto> createTaskList(@RequestBody TaskListDto taskListDto) {
+        TaskList createdTaskList = taskListService.createTaskList(taskListMapper.fromDto(taskListDto));
+        return new ResponseEntity<>(taskListMapper.toDto(createdTaskList), HttpStatus.CREATED);
     }
 }
