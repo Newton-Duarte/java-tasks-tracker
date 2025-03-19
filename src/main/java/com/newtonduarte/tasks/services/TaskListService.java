@@ -10,4 +10,5 @@ public interface TaskListService {
     TaskList getTaskList(UUID id);
     TaskList createTaskList(TaskList taskList);
     TaskList updateTaskList(UUID id, TaskList taskList);
+    void deleteTaskList(UUID id);
 }
