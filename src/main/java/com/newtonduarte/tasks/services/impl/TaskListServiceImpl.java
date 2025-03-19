@@ -5,6 +5,7 @@ import com.newtonduarte.tasks.repositories.TaskListRepository;
 import com.newtonduarte.tasks.services.TaskListService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -53,6 +54,7 @@ public class TaskListServiceImpl implements TaskListService {
         );
     }
 
+    @Transactional
     @Override
     public TaskList updateTaskList(UUID id, TaskList taskList) {
         TaskList existingTaskList = getTaskList(id);
