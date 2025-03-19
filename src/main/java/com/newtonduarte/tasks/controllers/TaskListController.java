@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping(path = "/tasks-lists")
@@ -26,6 +27,12 @@ public class TaskListController {
         List<TaskList> taskLists = taskListService.getTaskLists();
         List<TaskListDto> taskListsDto = taskLists.stream().map(taskListMapper::toDto).toList();
         return ResponseEntity.ok(taskListsDto);
+    }
+
+    @GetMapping(path = "/{id}")
+    public ResponseEntity<TaskListDto> getTaskList(@PathVariable UUID id) {
+        TaskList taskList = taskListService.getTaskList(id);
+        return ResponseEntity.ok(taskListMapper.toDto(taskList));
     }
 
     @PostMapping
