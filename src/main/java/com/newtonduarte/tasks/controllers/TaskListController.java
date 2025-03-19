@@ -46,4 +46,10 @@ public class TaskListController {
         TaskList taskList = taskListService.updateTaskList(id, taskListMapper.fromDto(taskListDto));
         return new ResponseEntity<>(taskListMapper.toDto(taskList), HttpStatus.OK);
     }
+
+    @DeleteMapping(path = "/{id}")
+    public ResponseEntity<Void> deleteTaskList(@PathVariable UUID id) {
+        taskListService.deleteTaskList(id);
+        return ResponseEntity.noContent().build();
+    }
 }
