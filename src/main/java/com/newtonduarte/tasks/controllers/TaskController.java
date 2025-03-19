@@ -46,4 +46,14 @@ public class TaskController {
         Task createdTask = taskService.createTask(taskListId, taskMapper.fromDto(taskDto));
         return new ResponseEntity<>(taskMapper.toDto(createdTask), HttpStatus.CREATED);
     }
+
+    @PutMapping(path = "/{id}")
+    public ResponseEntity<TaskDto> updateTask(
+            @PathVariable("task_list_id") UUID taskListId,
+            @PathVariable("id") UUID id,
+            @RequestBody TaskDto taskDto
+    ) {
+        Task updatedTask = taskService.updateTask(taskListId, id, taskMapper.fromDto(taskDto));
+        return ResponseEntity.ok(taskMapper.toDto(updatedTask));
+    }
 }
