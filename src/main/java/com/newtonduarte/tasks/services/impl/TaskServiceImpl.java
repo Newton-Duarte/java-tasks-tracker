@@ -9,6 +9,7 @@ import com.newtonduarte.tasks.repositories.TaskRepository;
 import com.newtonduarte.tasks.services.TaskService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -38,6 +39,7 @@ public class TaskServiceImpl implements TaskService {
                 .orElseThrow(() -> new EntityNotFoundException("Task not found with ID " + id));
     }
 
+    @Transactional
     @Override
     public Task createTask(UUID taskListId, Task task) {
         if (null != task.getId()) {
@@ -71,6 +73,7 @@ public class TaskServiceImpl implements TaskService {
         return taskRepository.save(taskToSave);
     }
 
+    @Transactional
     @Override
     public Task updateTask(UUID taskListId, UUID id, Task task) {
         Task existingTask = getTask(taskListId, id);
@@ -99,5 +102,11 @@ public class TaskServiceImpl implements TaskService {
         existingTask.setUpdatedAt(LocalDateTime.now());
 
         return taskRepository.save(existingTask);
+    }
+
+    @Transactional
+    @Override
+    public void deleteTask(UUID taskListId, UUID id) {
+        taskRepository.deleteByTaskListIdAndId(taskListId, id);
     }
 }
