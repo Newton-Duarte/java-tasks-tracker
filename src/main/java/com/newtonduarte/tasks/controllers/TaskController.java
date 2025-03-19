@@ -29,6 +29,15 @@ public class TaskController {
         return ResponseEntity.ok(tasksDto);
     }
 
+    @GetMapping(path = "/{id}")
+    public ResponseEntity<TaskDto> getTask(
+            @PathVariable("task_list_id") UUID taskListId,
+            @PathVariable("id") UUID id
+    ) {
+        Task task = taskService.getTask(taskListId, id);
+        return ResponseEntity.ok(taskMapper.toDto(task));
+    }
+
     @PostMapping
     public ResponseEntity<TaskDto> createTask(
             @PathVariable("task_list_id") UUID taskListId,

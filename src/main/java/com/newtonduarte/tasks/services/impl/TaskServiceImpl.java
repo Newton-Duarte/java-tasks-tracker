@@ -7,6 +7,7 @@ import com.newtonduarte.tasks.domain.entities.TaskStatus;
 import com.newtonduarte.tasks.repositories.TaskListRepository;
 import com.newtonduarte.tasks.repositories.TaskRepository;
 import com.newtonduarte.tasks.services.TaskService;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -27,6 +28,13 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public List<Task> getTasks(UUID taskListId) {
         return taskRepository.findByTaskListId(taskListId);
+    }
+
+    @Override
+    public Task getTask(UUID taskListId, UUID id) {
+        return taskRepository
+                .findByTaskListIdAndId(taskListId, id)
+                .orElseThrow(() -> new EntityNotFoundException("Task not found with ID " + id));
     }
 
     @Override
